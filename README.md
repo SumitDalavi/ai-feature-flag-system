@@ -1,18 +1,23 @@
-# AI Feature Flag System
+# ai-feature-flag-system
 
-> A feature flag platform supporting gradual percentage-based rollouts that automatically monitors quality metrics and triggers automatic rollback if AI output degrades.
+Dynamic feature flagging system designed specifically for rolling out AI models and prompts gradually to user segments.
 
-## 🛠️ Tech Stack
-- **Core Technology**: TypeScript, PostgreSQL, Redis
-- **Architecture**: Microservices, Event-Driven, AI-Native
+## Features
+- Fully automated workflow.
+- Secure, scalable architecture.
+- Built-in telemetry and observability.
 
-## 🚀 Step-by-Step Setup
+## Technologies
+- Node.js, Redis, React
+
+## Getting Started
+Ensure you have the required dependencies installed on your system.
+
 ```bash
-git clone https://github.com/SumitDalavi/ai-feature-flag-system.git
-cd ai-feature-flag-system
-docker-compose up -d --build
+# Setup & Test
+npm install
+npm test
 ```
 
-## 👨‍💻 Author
-**Sumit Dalavi** — Senior DevSecOps / Platform Engineer
-[GitHub](https://github.com/SumitDalavi) | [LinkedIn](https://in.linkedin.com/in/sumit-dalavi-762838129)
+## Architecture
+Please see the [Architecture Document](docs/architecture.md) for sequence diagrams and system design details.
