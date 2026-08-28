@@ -6,14 +6,14 @@ The following Mermaid.js sequence diagram maps the core workflow and interaction
 ```mermaid
 sequenceDiagram
     Client->>API: Evaluate Flag(userID)
-API->>Redis: Get Flag Config
-Redis-->>API: Targeting Rules
+API->>In-Memory LRU Cache / Node.js Maps: Get Flag Config
+In-Memory LRU Cache / Node.js Maps-->>API: Targeting Rules
 API->>API: Hash(userID) % 100
 API-->>Client: Enabled (True/False)
 ```
 
 ## Component Breakdown
-- **Core Technology**: Node.js, Redis, React
+- **Core Technology**: Node.js, In-Memory LRU Cache / Node.js Maps, React
 - **Design Paradigm**: Emphasizes high availability, fault tolerance, and security boundaries.
 
 ## Security & Scaling Considerations

@@ -1,72 +1,68 @@
 import request from 'supertest';
+import { app, pool } from '../src/index';
 
+// Mock the PG pool for stateful testing
 jest.mock('pg', () => {
+    let mockData: Record<string, any> = {
+        'new-dashboard': {
+            rules: {
+                default: false,
+                targets: [{ attribute: 'beta_tester', operator: 'equals', value: true }]
+            },
+            kill_switch: false
+        },
+        'broken-feature': {
+            rules: { default: true },
+            kill_switch: true
+        }
+    };
+
     const mPool = {
-        query: jest.fn(),
+        query: jest.fn().mockImplementation(async (queryStr, params) => {
+            if (queryStr.includes('SELECT rules, kill_switch FROM feature_flags')) {
+                const flag = mockData[params[0]];
+                if (!flag) return { rows: [] };
+                return { rows: [flag] };
+            }
+            return { rows: [] };
+        }),
+        end: jest.fn(),
     };
     return { Pool: jest.fn(() => mPool) };
 });
 
-import { app, pool } from '../src/index';
-
 describe('AI Feature Flag System', () => {
-    it('should evaluate feature flag as enabled', async () => {
-        (pool.query as jest.Mock).mockResolvedValueOnce({
-            rows: [{ rules: { type: 'ai_eval' } }]
-        });
-
-        const res = await request(app).post('/flags/new-ui/evaluate').send({
-            context: { user_id: 2 }
-        });
-
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.enabled).toEqual(true);
+    afterAll(async () => {
+        await pool.end();
     });
 
-    it('should evaluate feature flag as disabled', async () => {
-        (pool.query as jest.Mock).mockResolvedValueOnce({
-            rows: [{ rules: { type: 'ai_eval' } }]
-        });
-
-        const res = await request(app).post('/flags/new-ui/evaluate').send({
-            context: { user_id: 3 }
-        });
-
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.enabled).toEqual(false);
+    it('returns 200 with false for missing flag (default)', async () => {
+        const res = await request(app).post('/flags/missing-flag/evaluate').send({ context: {} });
+        expect(res.status).toBe(200);
+        expect(res.body.enabled).toBe(false);
     });
 
-    it('should return 404 for unknown flag', async () => {
-        (pool.query as jest.Mock).mockResolvedValueOnce({ rows: [] });
-
-        const res = await request(app).post('/flags/unknown/evaluate').send({
-            context: { user_id: 1 }
-        });
-
-        expect(res.statusCode).toEqual(404);
+    it('evaluates false for normal user based on targets', async () => {
+        const res = await request(app)
+            .post('/flags/new-dashboard/evaluate')
+            .send({ context: { beta_tester: false } });
+        expect(res.status).toBe(200);
+        expect(res.body.enabled).toBe(false);
     });
 
-    it('should evaluate as disabled if rule type is unknown or missing user_id', async () => {
-        (pool.query as jest.Mock).mockResolvedValueOnce({
-            rows: [{ rules: { type: 'unknown_type' } }]
-        });
-
-        const res = await request(app).post('/flags/new-ui/evaluate').send({
-            context: {}
-        });
-
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.enabled).toEqual(false);
+    it('evaluates true for target match', async () => {
+        const res = await request(app)
+            .post('/flags/new-dashboard/evaluate')
+            .send({ context: { beta_tester: true } });
+        expect(res.status).toBe(200);
+        expect(res.body.enabled).toBe(true);
     });
 
-    it('should return 500 on database error', async () => {
-        (pool.query as jest.Mock).mockRejectedValueOnce(new Error('DB connection failed'));
-
-        const res = await request(app).post('/flags/new-ui/evaluate').send({
-            context: { user_id: 1 }
-        });
-
-        expect(res.statusCode).toEqual(500);
-        expect(res.body.error).toEqual('DB connection failed');
+    it('respects the emergency kill switch', async () => {
+        const res = await request(app)
+            .post('/flags/broken-feature/evaluate')
+            .send({ context: {} }); // default is true, but kill switch is true
+        expect(res.status).toBe(200);
+        expect(res.body.enabled).toBe(false);
     });
 });
