@@ -1,3 +1,6 @@
+> **NOTE:** This repository is an archival lab or partial prototype. It is not actively maintained and should not be used as a reference for production-grade deployments or performance benchmarks.
+
+
 # ai-feature-flag-system
 
 Dynamic feature flagging system designed specifically for rolling out AI models and prompts gradually to user segments.
