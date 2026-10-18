@@ -4,6 +4,10 @@
 # ai-feature-flag-system
 
 [![Release](https://img.shields.io/github/v/release/SumitDalavi/ai-feature-flag-system?color=blue&logo=github)](https://github.com/SumitDalavi/ai-feature-flag-system/releases)
+[![Release Workflow](https://github.com/SumitDalavi/ai-feature-flag-system/actions/workflows/release.yml/badge.svg)](https://github.com/SumitDalavi/ai-feature-flag-system/actions/workflows/release.yml)
+[![SBOM](https://img.shields.io/badge/SBOM-SPDX%20JSON-blueviolet?logo=spdx)](https://github.com/SumitDalavi/ai-feature-flag-system/releases)
+
+[![Release](https://img.shields.io/github/v/release/SumitDalavi/ai-feature-flag-system?color=blue&logo=github)](https://github.com/SumitDalavi/ai-feature-flag-system/releases)
 [![SBOM](https://img.shields.io/badge/SBOM-SPDX%20JSON-blueviolet?logo=spdx)](https://github.com/SumitDalavi/ai-feature-flag-system/releases)
 
 Dynamic feature flagging system designed specifically for rolling out AI models and prompts gradually to user segments.
@@ -69,7 +73,7 @@ To comply with strict portfolio audit requirements, we explicitly define the bou
 - **Fully Implemented:** The core state machine, API routes, database schemas, and integration tests are real and fully functional.
 - **Mocked / Demo Mode:** None. The system is completely self-contained.
 
-## Release & Verification
+## Release & Security Verification
 
 The project includes an automated DevSecOps release pipeline (`.github/workflows/release.yml`) triggered on semantic version tags (`v*.*.*`).
 
@@ -89,3 +93,10 @@ gh release view v0.1.0 --repo SumitDalavi/ai-feature-flag-system
 gh release download v0.1.0 --repo SumitDalavi/ai-feature-flag-system --pattern "sbom.spdx.json"
 cat sbom.spdx.json | jq .
 ```
+
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md)
+- [Runbook](docs/runbook.md)
+- [Decisions](docs/decisions.md)
+- [Changelog](docs/changelog.md)
