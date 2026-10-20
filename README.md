@@ -1,14 +1,14 @@
 > **NOTE:** This repository is an archival lab or partial prototype. It is not actively maintained and should not be used as a reference for production-grade deployments or performance benchmarks.
 
-
 # ai-feature-flag-system
 
-[![Release](https://img.shields.io/github/v/release/SumitDalavi/ai-feature-flag-system?color=blue&logo=github)](https://github.com/SumitDalavi/ai-feature-flag-system/releases)
+[![CI Pipeline](https://github.com/SumitDalavi/ai-feature-flag-system/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/SumitDalavi/ai-feature-flag-system/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/SumitDalavi/ai-feature-flag-system?color=0969da&label=release&logo=github)](https://github.com/SumitDalavi/ai-feature-flag-system/releases)
 [![Release Workflow](https://github.com/SumitDalavi/ai-feature-flag-system/actions/workflows/release.yml/badge.svg)](https://github.com/SumitDalavi/ai-feature-flag-system/actions/workflows/release.yml)
-[![SBOM](https://img.shields.io/badge/SBOM-SPDX%20JSON-blueviolet?logo=spdx)](https://github.com/SumitDalavi/ai-feature-flag-system/releases)
-
-[![Release](https://img.shields.io/github/v/release/SumitDalavi/ai-feature-flag-system?color=blue&logo=github)](https://github.com/SumitDalavi/ai-feature-flag-system/releases)
-[![SBOM](https://img.shields.io/badge/SBOM-SPDX%20JSON-blueviolet?logo=spdx)](https://github.com/SumitDalavi/ai-feature-flag-system/releases)
+[![GHCR Container](https://img.shields.io/badge/ghcr.io-v0.2.0-blue?logo=docker&logoColor=white)](https://github.com/SumitDalavi/ai-feature-flag-system/pkgs/container/ai-feature-flag-system)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![SBOM](https://img.shields.io/badge/SBOM-SPDX%202.3-blueviolet?logo=spdx)](https://github.com/SumitDalavi/ai-feature-flag-system/releases/tag/v0.2.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 Dynamic feature flagging system designed specifically for rolling out AI models and prompts gradually to user segments.
 
@@ -31,7 +31,6 @@ npm test
 
 ## Architecture
 Please see the [Architecture Document](docs/architecture.md) for sequence diagrams and system design details.
-
 
 ---
 
